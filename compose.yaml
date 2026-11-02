@@ -1,0 +1,30 @@
+# Windows 11 VM used only to capture HP OMEN Gaming Hub <-> AIO LCD USB traffic.
+# Only the pump (HP LCD-PUMP 03f0:7397) is passed through; QEMU logs its traffic to captures/lcd.pcap.
+# Set VM_STORAGE in .env to put the VM disk elsewhere (default ./vm-storage, ~70 GB).
+services:
+  windows:
+    image: dockurr/windows
+    container_name: omen-lcd-win
+    environment:
+      VERSION: "11"
+      RAM_SIZE: "8G"
+      CPU_CORES: "4"
+      DISK_SIZE: "96G"
+      USERNAME: ${WIN_USER}
+      PASSWORD: ${WIN_PASS}
+      ARGUMENTS: "-device usb-host,vendorid=0x03f0,productid=0x7397,pcap=/captures/lcd.pcap"
+    devices:
+      - /dev/kvm
+      - /dev/net/tun
+      - /dev/bus/usb
+    cap_add:
+      - NET_ADMIN
+    ports:
+      - 127.0.0.1:8006:8006
+      - 127.0.0.1:3389:3389/tcp
+      - 127.0.0.1:3389:3389/udp
+    volumes:
+      - ${VM_STORAGE:-./vm-storage}:/storage
+      - ./captures:/captures
+    restart: "no"
+    stop_grace_period: 2m

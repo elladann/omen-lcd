@@ -1,0 +1,5 @@
+.env
+captures/
+vm-storage/
+__pycache__/
+CLAUDE.md

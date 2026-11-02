@@ -1,0 +1,2 @@
+# HP OMEN AIO LCD ("LCD-PUMP"): let the logged-in user drive the screen.
+SUBSYSTEM=="hidraw", ATTRS{idVendor}=="03f0", ATTRS{idProduct}=="7397", TAG+="uaccess"

@@ -1,0 +1,11 @@
+[Unit]
+Description=HP OMEN AIO LCD: CPU/GPU temperature display
+After=graphical-session.target
+
+[Service]
+ExecStart=%h/.local/bin/omen-lcd run
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=default.target
